@@ -24,8 +24,10 @@ var arc = d3.svg.arc()
     .startAngle(0)
     .endAngle(2*Math.PI/numBeats)
 var arc2 = d3.svg.arc()
-    .innerRadius(function(d, i){ return heightScale(i-1); })
-    .outerRadius(function(d, i){ return heightScale(i ) - 0; })
+    //.innerRadius(function(d, i){ return heightScale(i-1); })
+    .innerRadius(40)
+    //.outerRadius(function(d, i){ return heightScale(i ) - 0; })
+    .outerRadius(80)
     .startAngle(0)
     .endAngle(2*Math.PI/numBeats)
 
@@ -106,6 +108,9 @@ setInterval(function(){
   //ac time is more accurate than setInterval, look ahead 100 ms to schedule notes
   while (nextBeatTime < ac.currentTime + .1){    
     //grab the active beat column 
+    if (nextBeat==0){
+	    jQuery.ajax({url:"/",type:"PUT"});
+    }
     beats.filter(function(d, i){ return i == nextBeat; })
       .selectAll('path')
         .each(function(d){

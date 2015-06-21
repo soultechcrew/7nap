@@ -4,7 +4,10 @@ import tornado.web
 class MainHandler(tornado.web.RequestHandler):
     def set_default_headers(self):
         self.set_header("Access-Control-Allow-Origin", "http://localhost:8888")
-    def get(self):
+    def put(self):
+        sincro = open("sincroniza","w")
+        sincro.write("1")
+        sincro.close()
         self.write("Hello, world")
 
 

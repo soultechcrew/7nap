@@ -34,25 +34,28 @@ def leeRgb(colorRgb):
 if __name__ == '__main__':
     ser = serial.Serial("/dev/ttyUSB0",9600)
     indice = 0
-    secuenciafile = open("bosque.json","r")
+    secuenciafile = open("volcan.json","r")
     secuencia = json.load(secuenciafile)
     secuenciafile.close()
+    tamano = len(secuencia)
+    time.sleep(7)
     while True:
         colorRgb = secuencia[indice]
         R1,G1,B1 = leeRgb(colorRgb)
-        indice2 = (indice+1)%5
+        indice2 = (indice+1)%tamano
         colorRgb2 = secuencia[indice2]
         R2,G2,B2 = leeRgb(colorRgb2)
-        Rs = [int(x) for x in numpy.round(numpy.linspace(R1,R2,60))]
-        Gs = [int(x) for x in numpy.round(numpy.linspace(G1,G2,60))]
-        Bs = [int(x) for x in numpy.round(numpy.linspace(B1,B2,60))]
-        for i in range(0,60):
+        degradados = 1000
+        Rs = [int(x) for x in numpy.round(numpy.linspace(R1,R2,degradados))]
+        Gs = [int(x) for x in numpy.round(numpy.linspace(G1,G2,degradados))]
+        Bs = [int(x) for x in numpy.round(numpy.linspace(B1,B2,degradados))]
+        for i in range(0,degradados):
             R,G,B = Rs[i],Gs[i],Bs[i]
-            cadenita = ",".join([str(R),str(G),str(B),str(255-R),str(255-G),str(255-B)])+","
+            cadenita = ",".join([str(R),str(G),str(B),"0"])+","
             ser.write(cadenita)
-            #time.sleep(.005)
+            time.sleep(.005)
             print R,G,B
-        indice =(indice + 1)%5
+        indice =(indice + 1)%tamano
 
     #play_tone(stream)
 
